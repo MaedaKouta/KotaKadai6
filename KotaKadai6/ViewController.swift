@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     @IBOutlet weak private var randomNumberTextField: UILabel!
     @IBOutlet weak private var aboutNumberSlider: UISlider!
 
-    private var randomNumberInt: Int?
+    private var randomNumberInt = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,17 +20,16 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func didTapJudgeButton(_ sender: Any) {
-        let aboutNumInt = Int(round(self.aboutNumberSlider.value))
-        guard let randomNumberInt = randomNumberInt else { return }
+        let aboutNumInt = Int(round(aboutNumberSlider.value))
 
         if randomNumberInt == aboutNumInt {
-            ouputActionSheet(judge: "あたり！", yourValue: aboutNumInt)
+            presentAlert(judge: "あたり！", yourValue: aboutNumInt)
         } else {
-            ouputActionSheet(judge: "はずれ！", yourValue: aboutNumInt)
+            presentAlert(judge: "はずれ！", yourValue: aboutNumInt)
         }
     }
 
-    private func ouputActionSheet(judge: String, yourValue: Int) {
+    private func presentAlert(judge: String, yourValue: Int) {
             let alert = UIAlertController(
                 title: "結果",
                 message: """
@@ -42,7 +41,7 @@ class ViewController: UIViewController {
             let retry = UIAlertAction(
                 title: "再挑戦",
                 style: .default,
-                handler: { _ in self.makeRandomNum() })
+                handler: { [weak self] _ in self?.makeRandomNum() })
                 alert.addAction(retry)
 
             present(alert, animated: true, completion: nil)
@@ -50,9 +49,8 @@ class ViewController: UIViewController {
 
     // ランダムな数字を表示・作成
     private func makeRandomNum() {
-        let num = Int.random(in: 1..<100)
-        randomNumberTextField.text = String(num)
-        randomNumberInt = num
+        let randomNumberInt = Int.random(in: 1...100)
+        randomNumberTextField.text = String(randomNumberInt)
     }
 
 }
