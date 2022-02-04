@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func didTapJudgeButton(_ sender: Any) {
-        let aboutNumInt = Int(round(aboutNumberSlider.value))
+        let aboutNumInt = Int(aboutNumberSlider.value)
 
         if randomNumberInt == aboutNumInt {
             presentAlert(judge: "あたり！", yourValue: aboutNumInt)
